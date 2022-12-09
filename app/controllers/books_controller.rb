@@ -5,12 +5,18 @@ class BooksController < ApplicationController
   def show
     @book = Book.find(params[:id])
     @book_new = Book.new
+    @user = current_user
     @book_comment = BookComment.new
+    @following_users = @user.following_user
+    @follower_users = @user.follower_user
   end
 
   def index
+    @user = current_user
     @books = Book.all
     @book = Book.new
+    @following_users = @user.following_user
+    @follower_users = @user.follower_user
   end
 
   def create
@@ -42,6 +48,16 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @book.destroy
     redirect_to books_path, notice: "successfully delite bppk!"
+  end
+
+  def follows
+  user = User.find(params[:id])
+  @users = user.following_user
+  end
+
+  def followers
+  user = User.find(params[:id])
+  @users = user.follower_user
   end
 
   private
